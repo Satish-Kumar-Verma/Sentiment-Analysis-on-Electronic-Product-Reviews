@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container mx-auto my-12 px-4 md:px-12">
+    <div class="text-center mb-10">
+        <h1 class="font-bold text-4xl mb-4">About Us</h1>
+        <p class="text-xl">Learn more about our data extraction process and sentiment analysis methodology.</p>
+    </div>
+
+    <div class="mb-10">
+        <h2 class="font-bold text-3xl mb-4">Data Extraction</h2>
+        <p class="text-lg mb-4">
+            Our primary source of product review data is Flipkart, one of the leading online shopping platforms. Using our custom-built <span class="font-semibold">extract_data.py</span> script, we are able to efficiently extract and save valuable user review data onto our local machines.
+        </p>
+        <p class="text-lg">
+            This script navigates through product pages, captures user reviews, and systematically stores this data. Our extraction process ensures that the data used for sentiment analysis is relevant, accurate, and up-to-date.
+        </p>
+    </div>
+
+    <div class="mb-10">
+        <h2 class="font-bold text-3xl mb-4">Sentiment Analysis with Flair</h2>
+        <p class="text-lg mb-4">
+            Sentiment analysis plays a crucial role in understanding the general sentiment of our user reviews. For this, we utilize Flair, an advanced framework that provides state-of-the-art results in various natural language processing tasks.
+        </p>
+        <p class="text-lg">
+            Through Flair's sophisticated algorithms, we can determine whether a given review has a positive or negative sentiment. This enables us to provide meaningful insights into customer preferences and product performance.
+        </p>
+    </div>
+
+    <div class="text-center mt-10">
+        <p class="text-xl">Interested in learning more? <a href="{% url 'contact' %}"><span class="font-semibold text-blue-500 cursor-pointer hover:underline">Contact us</span></a>.</p>
+    </div>
+</div>
+
+{% endblock %}

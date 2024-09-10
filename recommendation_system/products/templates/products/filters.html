@@ -1,0 +1,102 @@
+{% load static %}
+{% load custom_filters %}
+
+
+
+<style>
+    /* Style for the filter form */
+    .filter-form {
+        background-color: #f7f7f7;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    /* Style for the filter labels and inputs */
+    .filter-label {
+        font-weight: bold;
+    }
+
+    .filter-checkbox,
+    .filter-select {
+        margin-right: 1px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    /* Style for the Apply Filter button */
+    .filter-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 7px 10px;
+        cursor: pointer;
+        margin-top: 10px;
+        margin-right: 10px;
+    }
+
+    .reset-filter-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 10px;
+        cursor: pointer;
+        margin-top: 10px;
+        margin-right: 10px;
+    }
+
+    .filter-button:hover {
+        background-color: #0056b3;
+    }
+    label {
+        margin-right: 15px; /* Adjust the value as needed */
+    }
+</style>
+
+<!-- Filter form with styling -->
+<form action="{% url 'filtered_products' %}" method="get" class="filter-form">
+    <!-- Brand Filter -->
+    <div class="filter-group">
+        <label class="filter-label">Brand:</label>
+        {% for brand in brands %}
+    <label>
+        <input type="checkbox" class="filter-checkbox" name="brand" value="{{ brand }}"> {{ brand }}
+    </label>
+{% endfor %}
+
+    </div>
+
+    <!-- Product Type Filter -->
+    <div class="filter-group">
+        <label class="filter-label" for="product_type">Product Type:</label>
+        <select class="filter-select" name="product_type" id="product_type">
+            <option value="">All</option>
+            {% for product_type in product_types %}
+                <option value="{{ product_type }}">{{ product_type }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Positive Percentage Filter -->
+    <div class="filter-group">
+        <label class="filter-label" for="positive_percentage">Sentiment Score:</label>
+        <select class="filter-select" name="positive_percentage" id="positive_percentage">
+            <option value="">All</option>
+            <option value="90">Above 90%</option>
+            <option value="80">Above 80%</option>
+            <option value="50">Above 50%</option>
+            <option value="below_50">Below 50%</option>
+        </select>
+    </div>
+
+    <!-- Apply Filter Button -->
+    <button type="submit" class="filter-button">Apply Filter</button>
+    <button><a href="{% url 'products' %}" class="reset-filter-button">Reset Filters</a></button>
+</form>
+
+
+

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Products</title>
+</head>
+<body>
+
+<h1>Products</h1>
+{% load static %}
+<ul>
+{% for product in products %}
+    <li>
+        <h3><a href="{% url 'product_details' product.product_model %}">{{ product.product_name }}</a></h3>
+        <img src="{% static product.image_path %}" alt="{{ product.product_name }}">
+        <p>Original Price: ₹{{ product.original_price }}</p>
+        <p>Discount Price: ₹{{ product.discount_price }}</p>
+        <p>Positive Sentiment: {{ product.positive_percentage }}%</p>
+        <p>Negative Sentiment: {{ product.negative_percentage }}%</p>
+        <br>
+        <!-- You can continue displaying other attributes similarly -->
+    </li>
+{% endfor %}
+</ul>
+
+</body>
+</html>

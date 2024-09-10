@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+
+<style>
+    /* Reset */
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+  
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+  
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+  
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+    }
+  
+    h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+    }
+  
+    /* Container for the products */
+    .products-container {
+      display: flex;
+      flex-wrap: wrap; /* Enable wrapping to the next line */
+      justify-content: flex-start; /* Horizontal alignment to start */
+      gap: 20px; /* Adjust the gap between products */
+    }
+  
+    /* Style for each product card */
+    .product-card {
+      width: 250px;
+      height: 350px;
+      overflow: hidden;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .product-card img {
+      max-width: 100%;
+      max-height: 150px;
+      display: block;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+  
+    .product-card h4 {
+      font-size: 14px;
+      margin-top: 10px;
+    }
+  
+    .product-card p {
+      font-size: 12px;
+      margin: 5px 0;
+    }
+  
+  </style>
+  
+  {% include 'filters.html' %}
+  <hr>
+  <br>
+  <br>
+
+  <h1>Filtered Products</h1>
+  
+  <!-- Container for products with flexbox -->
+  <div class="products-container">
+    {% for product in products %}
+    <a href="{% url 'product_details' product.product_model %}" class="product-card">
+      <img src="{% static product.image_path %}" alt="{{ product.product_name }}">
+      <h4 class="text-2xl text-gray-500 font-bold mt-2">{{ product.product_model|replace_underscores_with_spaces }}</h4>
+      <p class="text-gray-500">Recommended : {{ product.positive_percentage }}%</p>
+      <p>Price : <s>₹{{ product.original_price }}</s> <span class="text-green-500">₹{{ product.discount_price }}</span></p>
+      <p style="font-size: 10px;" class="mt-2">Details : {{ product.product_name }}</p>
+    </a>
+    {% endfor %}
+  </div>
+  
+{% endblock %}

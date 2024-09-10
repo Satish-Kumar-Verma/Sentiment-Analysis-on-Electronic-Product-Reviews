@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+{% load custom_filters %}
+<!-- Styles to prevent unwanted page scroll -->
+<style>
+    body {
+        max-width: 100vw;
+        overflow-x: hidden; /* Prevent horizontal scroll */
+        display: fit;
+    }
+    /* Reset */
+    body, html {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        box-sizing: border-box;
+    }
+
+    *, *:before, *:after {
+        box-sizing: inherit;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+    }
+
+    h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 24px;
+    }
+
+    /* Flexbox for product list */
+    .product-list {
+        display: flex;
+        flex-wrap: wrap;  /* Wrap items to the next line when there's not enough space */
+        gap: 20px; /* Adjust the gap between products */
+    }
+
+    .card {
+        width: 250px;
+        height: 350px;
+        overflow: hidden;
+    }
+
+    .card img {
+        max-width: 100%;
+        max-height: 150px;
+        display: block;
+        margin: 0 auto;
+        object-fit: contain;
+    }
+
+    h4 {
+        font-size: 14px;
+    }
+
+    /* Percentage Bar Styles */
+.percentage-bar {
+    width: 100%;
+    height: 10px;
+    background-color: #e2e8f0;
+    margin-top: 5px;
+    position: relative;
+}
+
+.percentage-fill {
+    height: 100%;
+    transition: width 0.5s;
+}
+
+/* Green for Positive */
+.percentage-fill.positive {
+    background-color: #38a169; /* Green */
+}
+
+/* Orange for Negative */
+.percentage-fill.negative {
+    background-color: #f6ad55; /* Orange */
+}
+
+</style>
+
+<!-- Styles for Swiper -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+<!-- Swiper Container -->
+<div class="swiper-container h-screen overflow-hidden">
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+        <!-- Slides -->
+        <div class="swiper-slide">
+            <img src="{% static 'bg-image-1.jpg' %}" class="object-cover w-full h-screen" alt="Image 1">
+        </div>
+        <div class="swiper-slide">
+            <img src="{% static 'bg-image-2.jpg' %}" class="object-cover w-full h-screen" alt="Image 2">
+        </div>
+        <div class="swiper-slide">
+            <img src="{% static 'bg-image-3.jpg' %}" class="object-cover w-full h-screen" alt="Image 3">
+        </div>
+        <div class="swiper-slide">
+            <img src="{% static 'bg-image-4.jpg' %}" class="object-cover w-full h-screen" alt="Image 4">
+        </div>
+    </div>
+    <!-- Pagination (If you want to show slide indicators) -->
+    <div class="swiper-pagination"></div>
+</div>
+
+<!-- Welcome Message & Button -->
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-10">
+    <h2 class="text-4xl font-bold mb-4 text-white">Welcome to Electronic Product Recommendation System</h2>
+    <a href="{% url 'products' %}" class="bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300">Check Products</a>
+</div>
+
+<!-- SwiperJS scripts -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: {
+            el: '.swiper-pagination',
+            dynamicBullets: true,
+        },
+        loop: true,
+        autoplay: {
+            delay: 2000,
+            disableOnInteraction: false,
+        }
+    });
+</script>
+
+<h3 class="my-4 border-b pb-1">Featured Products</h3>
+
+<hr>
+<div class="product-list">
+    {% for product in data %}
+        <a href="{% url 'product_details' product.product_model %}">
+            <div class="card bg-white shadow-md rounded-lg p-5">
+                <a href="{% url 'product_details' product.product_model %}"><img src="{% static product.image_path %}" alt="{{ product.product_name }}"></a>
+                        <a href="{% url 'product_details' product.product_model %}"><h4 class="text-2xl text-gray-600 font-bold mt-2">{{ product.product_model|replace_underscores_with_spaces }}</h4></a>
+                
+                <!-- Single Percentage Bar -->
+            <div class="percentage-bar">
+                <div class="percentage-fill" style="width: {{ product.positive_percentage }}%; background-color: {% if product.positive_percentage >= product.negative_percentage %} #38a169 {% else %} #f6ad55 {% endif %};"></div>
+            </div>
+
+                <p class="text-gray-500">Recommended : {{ product.positive_percentage }}%</p>
+                <p>Price : <s>₹{{ product.original_price }}</s> <span class="text-green-500">₹{{ product.discount_price }}</span></p>
+                <p style="font-size: 10px;" class="mt-2">Details : {{ product.product_name }}</p>
+
+
+            </div>
+        </a>
+    {% endfor %}
+</div>
+
+{% endblock %}

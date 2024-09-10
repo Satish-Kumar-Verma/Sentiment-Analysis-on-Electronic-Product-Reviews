@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Styles for the sentiment analysis page -->
+<style>
+    .chart-container {
+        width: 80%;
+        margin: auto;
+        margin-top: 20px;
+    }
+</style>
+
+<!-- Include the Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% for product_type, brand_data in data.items %}
+    <h2 class="text-4xl font-bold my-4">{{ product_type }}</h2>
+    <div class="chart-container">
+        <canvas id="chart_{{ product_type }}"></canvas>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('chart_{{ product_type }}').getContext('2d');
+
+        var brands = [];
+        var positiveValues = [];
+        var negativeValues = [];
+
+        {% for brand, sentiment_data in brand_data.items %}
+            brands.push('{{ brand }}');
+            positiveValues.push({{ sentiment_data.positive }});
+            negativeValues.push({{ sentiment_data.negative }});
+        {% endfor %}
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: brands,
+                datasets: [{
+                    label: 'Positive',
+                    data: positiveValues,
+                    backgroundColor: 'rgba(0, 220, 200, 0.8)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Negative',
+                    data: negativeValues,
+                    backgroundColor: 'rgba(255, 50, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+    </script>
+{% endfor %}
+
+{% endblock %}
