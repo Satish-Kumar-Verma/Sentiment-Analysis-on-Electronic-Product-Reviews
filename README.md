@@ -1,5 +1,5 @@
 
-# Sentiment Analysis on Electronic Product Reviews
+# Recommendation System for Electronic Products Using Sentiment Analysis
 
 ## Project Overview
 This project performs sentiment analysis on electronic product reviews scraped from **Flipkart**. The goal is to classify reviews as positive or negative, and based on this, a recommendation system is developed that displays the percentage of positive and negative reviews for various products. This helps potential buyers make informed decisions when purchasing products.
